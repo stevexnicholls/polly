@@ -1,0 +1,63 @@
+project_name: polly
+before:
+  hooks:
+    - go mod download
+builds:
+- binary: polly
+  id: polly
+  env:
+  - CGO_ENABLED=0
+  - GOPROXY=https://proxy.golang.org
+  goos:
+    - darwin
+    - linux
+    - windows
+    # - freebsd
+    # - netbsd
+    # - openbsd
+    # - dragonfly
+  goarch:
+    - amd64
+    - 386
+    - arm
+    - arm64
+  goarm:
+    - 7
+  main: ./cmd/polly/main.go
+
+archives:
+- id: "polly"
+  builds: ['polly']
+  format: tar.gz
+  format_overrides:
+    - goos: windows
+      format: zip
+  name_template: "{{.ProjectName}}_{{.Version}}_{{.Os}}-{{.Arch}}"
+  replacements:
+    arm: ARM
+    arm64: ARM64
+    darwin: macOS
+    linux: Linux
+    windows: Windows
+    openbsd: OpenBSD
+    netbsd: NetBSD
+    freebsd: FreeBSD
+    dragonfly: DragonFlyBSD
+    386: 32bit
+    amd64: 64bit
+  files:
+    - README.md
+    - LICENSE
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
