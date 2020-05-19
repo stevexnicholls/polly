@@ -23,7 +23,7 @@ builds:
     - arm64
   goarm:
     - 7
-  main: ./cmd/polly/main.go
+  main: ./polly/main.go
 
 archives:
 - id: "polly"
