@@ -25,7 +25,8 @@ import (
 // Plugin _
 type Plugin interface {
 	PollyPlugin() PluginInfo
-	Execute(context.Context, []byte) ([]byte, error)
+	Provision(context.Context, Config) error
+	Execute(context.Context, Config) error
 }
 
 // PluginInfo _
@@ -59,11 +60,20 @@ func RegisterPlugin(instance Plugin) {
 }
 
 // GetPlugin _
-func GetPlugin(id string) (PluginInfo, error) {
+func GetPlugin(id string) (Plugin, error) {
 	if _, ok := plugins[id]; !ok {
 		panic(fmt.Sprintf("plugin not registered: %s", id))
 	}
-	p := plugins[id]
+	p := plugins[id].New()
+	return p, nil
+}
+
+// GetPlugins _
+func GetPlugins() ([]Plugin, error) {
+	var p []Plugin
+	for _, v := range plugins {
+		p = append(p, v.New())
+	}
 	return p, nil
 }
 

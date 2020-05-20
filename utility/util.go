@@ -37,11 +37,16 @@ import (
 type Format string
 
 const (
-	ORG  Format = "org"
+	// ORG _
+	ORG Format = "org"
+	// JSON _
 	JSON Format = "json"
+	// TOML _
 	TOML Format = "toml"
+	// YAML _
 	YAML Format = "yaml"
-	CSV  Format = "csv"
+	// CSV _
+	CSV Format = "csv"
 )
 
 const (

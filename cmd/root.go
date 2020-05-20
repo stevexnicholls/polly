@@ -29,7 +29,12 @@ import (
 	"github.com/stevexnicholls/polly/logger"
 )
 
-var cfgFile string
+var (
+	cfgFile string
+
+	// Verbose flag
+	Verbose bool
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -53,6 +58,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.polly.yaml)")
+	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -82,13 +88,13 @@ func initConfig() {
 	}
 
 	config := logger.Configuration{
-		EnableConsole:     true,
+		EnableConsole:     Verbose,
 		ConsoleLevel:      logger.Debug,
 		ConsoleJSONFormat: true,
 		EnableFile:        true,
 		FileLevel:         logger.Info,
 		FileJSONFormat:    true,
-		FileLocation:      "log.log",
+		FileLocation:      "polly.log",
 	}
 	err := logger.NewLogger(config, logger.InstanceZapLogger)
 	if err != nil {

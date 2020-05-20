@@ -7,3 +7,5 @@ slug = "toml-doc"
 tags = ["polly", "random", "text"]
 title = "a random doc"
 +++
+
+{{< polly/external >}}

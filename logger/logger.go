@@ -17,10 +17,11 @@ const (
 	Warn = "warn"
 	//Error is for logging errors
 	Error = "error"
-	//Fatal is for logging fatal messages. The sytem shutsdown after logging the message.
+	//Fatal is for logging fatal messages. The system shutsdown after logging the message.
 	Fatal = "fatal"
 )
 
+// InstanceZapLogger _
 const (
 	InstanceZapLogger int = iota
 )
@@ -29,19 +30,31 @@ var (
 	errInvalidLoggerInstance = errors.New("Invalid logger instance")
 )
 
-//Logger is our contract for the logger
+// Logger is our contract for the logger
 type Logger interface {
 	Debugf(format string, args ...interface{})
 
+	Debugw(msg string, args ...interface{})
+
 	Infof(format string, args ...interface{})
+
+	Infow(msg string, args ...interface{})
 
 	Warnf(format string, args ...interface{})
 
+	Warnw(msg string, args ...interface{})
+
 	Errorf(format string, args ...interface{})
+
+	Errorw(msg string, args ...interface{})
 
 	Fatalf(format string, args ...interface{})
 
+	Fatalw(msg string, args ...interface{})
+
 	Panicf(format string, args ...interface{})
+
+	Panicw(msg string, args ...interface{})
 
 	WithFields(keyValues Fields) Logger
 }
@@ -58,7 +71,7 @@ type Configuration struct {
 	FileLocation      string
 }
 
-//NewLogger returns an instance of logger
+// NewLogger returns an instance of logger
 func NewLogger(config Configuration, loggerInstance int) error {
 	switch loggerInstance {
 	case InstanceZapLogger:
@@ -74,30 +87,67 @@ func NewLogger(config Configuration, loggerInstance int) error {
 	}
 }
 
+// Debugf _
 func Debugf(format string, args ...interface{}) {
 	log.Debugf(format, args...)
 }
 
+// Debugw _
+func Debugw(msg string, args ...interface{}) {
+	log.Debugw(msg, args...)
+}
+
+// Infof _
 func Infof(format string, args ...interface{}) {
 	log.Infof(format, args...)
 }
 
+// Infow _
+func Infow(msg string, args ...interface{}) {
+	log.Infow(msg, args...)
+}
+
+// Warnf _
 func Warnf(format string, args ...interface{}) {
 	log.Warnf(format, args...)
 }
 
+// Warnw _
+func Warnw(msg string, args ...interface{}) {
+	log.Warnw(msg, args...)
+}
+
+// Errorf _
 func Errorf(format string, args ...interface{}) {
 	log.Errorf(format, args...)
 }
 
+// Errorw _
+func Errorw(msg string, args ...interface{}) {
+	log.Errorw(msg, args...)
+}
+
+// Fatalf _
 func Fatalf(format string, args ...interface{}) {
 	log.Fatalf(format, args...)
 }
 
+// Fatalw _
+func Fatalw(msg string, args ...interface{}) {
+	log.Fatalw(msg, args...)
+}
+
+// Panicf _
 func Panicf(format string, args ...interface{}) {
 	log.Panicf(format, args...)
 }
 
+// Panicw _
+func Panicw(msg string, args ...interface{}) {
+	log.Panicw(msg, args...)
+}
+
+// WithFields _
 func WithFields(keyValues Fields) Logger {
 	return log.WithFields(keyValues)
 }

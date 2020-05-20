@@ -12,3 +12,5 @@ tags:
 - text
 title: a random doc
 ---
+
+{{< polly/external >}}

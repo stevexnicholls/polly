@@ -78,24 +78,48 @@ func (l *zapLogger) Debugf(format string, args ...interface{}) {
 	l.sugaredLogger.Debugf(format, args...)
 }
 
+func (l *zapLogger) Debugw(msg string, args ...interface{}) {
+	l.sugaredLogger.Debugw(msg, args...)
+}
+
 func (l *zapLogger) Infof(format string, args ...interface{}) {
 	l.sugaredLogger.Infof(format, args...)
+}
+
+func (l *zapLogger) Infow(msg string, args ...interface{}) {
+	l.sugaredLogger.Infow(msg, args...)
 }
 
 func (l *zapLogger) Warnf(format string, args ...interface{}) {
 	l.sugaredLogger.Warnf(format, args...)
 }
 
+func (l *zapLogger) Warnw(msg string, args ...interface{}) {
+	l.sugaredLogger.Warnw(msg, args...)
+}
+
 func (l *zapLogger) Errorf(format string, args ...interface{}) {
 	l.sugaredLogger.Errorf(format, args...)
+}
+
+func (l *zapLogger) Errorw(msg string, args ...interface{}) {
+	l.sugaredLogger.Errorw(msg, args...)
 }
 
 func (l *zapLogger) Fatalf(format string, args ...interface{}) {
 	l.sugaredLogger.Fatalf(format, args...)
 }
 
+func (l *zapLogger) Fatalw(msg string, args ...interface{}) {
+	l.sugaredLogger.Fatalw(msg, args...)
+}
+
 func (l *zapLogger) Panicf(format string, args ...interface{}) {
-	l.sugaredLogger.Fatalf(format, args...)
+	l.sugaredLogger.Panicf(format, args...)
+}
+
+func (l *zapLogger) Panicw(msg string, args ...interface{}) {
+	l.sugaredLogger.Panicw(msg, args...)
 }
 
 func (l *zapLogger) WithFields(fields Fields) Logger {

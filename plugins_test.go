@@ -14,10 +14,35 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package standard
+package polly
 
 import (
-	// standard plugins
-	_ "github.com/stevexnicholls/polly/plugins/external"
-	_ "github.com/stevexnicholls/polly/plugins/noop"
+	"reflect"
+	"testing"
 )
+
+func TestGetPlugin(t *testing.T) {
+	pluginsMu.Lock()
+	plugins = map[string]PluginInfo{
+		"a": {ID: "a"},
+	}
+	pluginsMu.Unlock()
+
+	for i, tc := range []struct {
+		input  string
+		expect PluginInfo
+	}{
+		{
+			input: "a",
+			expect: PluginInfo{
+				ID: "a",
+			},
+		},
+	} {
+		actual, _ := GetPlugin(tc.input)
+		if !reflect.DeepEqual(actual, tc.expect) {
+			t.Errorf("Test %d: Expected %v but got %v", i, tc.expect, actual)
+		}
+	}
+
+}

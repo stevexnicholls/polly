@@ -18,21 +18,30 @@ package cmd
 
 import (
 	"context"
-	"io/ioutil"
-	"sync"
+	"os"
 
 	"github.com/spf13/cobra"
 
 	"github.com/stevexnicholls/polly"
 	log "github.com/stevexnicholls/polly/logger"
-	util "github.com/stevexnicholls/polly/utility"
 )
 
-// Recursive _
-var Recursive bool
+var (
+	// Recursive _
+	Recursive bool
 
-// Filter _
-var Filter string
+	// Filter _
+	Filter string
+
+	// ContentDir _
+	ContentDir string
+
+	// LayoutsDir _
+	LayoutsDir string
+
+	// PollyDir _
+	PollyDir string
+)
 
 // processCmd represents the process command
 var processCmd = &cobra.Command{
@@ -46,8 +55,12 @@ var processCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(processCmd)
-	processCmd.Flags().BoolVarP(&Recursive, "recursive", "r", false, "Help message for recursive")
+	processCmd.Flags().BoolVarP(&Recursive, "recursive", "r", true, "Help message for recursive")
 	processCmd.Flags().StringVarP(&Filter, "filter", "f", "", "Help message for filter")
+
+	processCmd.Flags().StringVarP(&ContentDir, "contentDir", "c", "content", "filesystem path to content directory")
+	processCmd.Flags().StringVarP(&LayoutsDir, "layoutsDir", "l", "layouts", "filesystem path to layout directory")
+	processCmd.Flags().StringVarP(&PollyDir, "pollyDir", "p", "resources"+string(os.PathSeparator)+"polly", "filesystem path to polly directory")
 }
 
 // run is the main function for this command
@@ -58,59 +71,30 @@ func run(cmd *cobra.Command, args []string) {
 		cancelFunction()
 	}()
 
-	files, err := util.GetFiles(args, Recursive, Filter)
+	config := polly.Config{
+		PollyDir:   PollyDir,
+		ContentDir: ContentDir,
+		LayoutsDir: LayoutsDir,
+	}
+
+	plugins, err := polly.GetPlugins()
 	if err != nil {
-		log.Errorf(err.Error())
+		log.Fatalw("", "error", err.Error())
 	}
 
-	// TODO: this is just for dev; replace all of this
-	ext, err := polly.GetPlugin("external")
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-	exti := ext.New()
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-	var stack []polly.Plugin
-	stack = append(stack, exti)
-
-	var wg sync.WaitGroup
-
-	for _, f := range files {
-		wg.Add(1)
-		go processFile(ctxWithCancel, f, stack, &wg)
-	}
-
-	wg.Wait()
-
-	log.Infof("done")
-}
-
-// processFile process a file using available plugins
-func processFile(ctx context.Context, path string, stack []polly.Plugin, wg *sync.WaitGroup) error {
-	defer wg.Done()
-
-	log.Infof("process %s", path)
-
-	var err error
-
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-
-	for _, p := range stack {
-		content, err = p.Execute(ctx, content)
+	// provision all plugins
+	for _, p := range plugins {
+		err := p.Provision(ctxWithCancel, config)
 		if err != nil {
-			return err
+			log.Fatalf(err.Error())
 		}
 	}
 
-	err = ioutil.WriteFile(path, content, 0644)
-	if err != nil {
-		log.Fatalf(err.Error())
+	// execute all plugins
+	for _, p := range plugins {
+		err := p.Execute(ctxWithCancel, config)
+		if err != nil {
+			log.Fatalf(err.Error())
+		}
 	}
-
-	return nil
 }

@@ -1,20 +1,21 @@
 <!-- markdownlint-disable MD013 MD033 -->
 <p align="center"><img src="polly.png" alt="Polly" width="90%" /></p>
 
-# Polly is intended to be a preprocessor for Hugo but we'll see...
+##  Polly is a preprocessor for Hugo
 [![][status-shield]][status-url] [![CircleCI][build-shield]][build-status] [![Go Report Card][go-report-shield]][go-report-card]
 
 #### Table of Contents
 
-1. [Introduction](#introduction)
-2. [Installation](#installation)
+1. [Polly is a preprocessor for Hugo](#polly-is-a-preprocessor-for-hugo)
+2. [Introduction](#introduction)
+3. [Installation](#installation)
    1. [Download (Binary Install)](#download-binary-install)
    2. [Build and Install from Source](#build-and-install-from-source)
-3. [Usage](#usage)
-4. [Roadmap](#roadmap)
-5. [Contributing](#contributing)
-6. [License](#license)
-7. [Contact](#contact)
+4. [Usage](#usage)
+5. [Roadmap](#roadmap)
+6. [Contributing](#contributing)
+7. [License](#license)
+8. [Contact](#contact)
 
 ## Introduction
 
@@ -35,7 +36,7 @@
 mkdir $HOME/src
 cd $HOME/src
 git clone https://github.com/stevexnicholls/polly.git
-cd hugo
+cd polly
 go install
 ```
 
