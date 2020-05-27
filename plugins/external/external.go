@@ -94,9 +94,7 @@ func (External) Execute(ctx context.Context, config polly.Config) error {
 
 	for _, f := range files {
 		wg.Add(1)
-		go func() {
-			processFile(ctx, f, config, &wg)
-		}()
+		go processFile(ctx, f, config, &wg)
 	}
 
 	wg.Wait()
