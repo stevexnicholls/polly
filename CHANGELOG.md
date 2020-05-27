@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.3] - 2020-05-27
+
+### Fixed
+
+- Fixes issue where only one file was getting processed multiple times by external plugin.
+
 ## [0.1.0-alpha.2] - 2020-05-27
 
 ### Fixed
@@ -25,6 +31,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Initial pre-release.
 
+[0.1.0-alpha.3]: https://github.com/stevexnicholls/polly/releases/tag/v0.1.0-alpha.3
 [0.1.0-alpha.2]: https://github.com/stevexnicholls/polly/releases/tag/v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/stevexnicholls/polly/releases/tag/v0.1.0-alpha.1
 [0.1.0-alpha]: https://github.com/stevexnicholls/polly/releases/tag/v0.1.0-alpha
