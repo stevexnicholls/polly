@@ -66,7 +66,7 @@ func (External) Provision(ctx context.Context, config polly.Config) error {
 
 	// create external shortcode
 
-	shortcode := "{{ with $.Page.Params.external }}{{ $file := (printf \"" + filepath.Join(config.PollyDir) + "/external/%s\" (sha1 .)) }}{{ $contents := readFile $file }}{{ replace $contents (print "# " $.Page.Params.title) "" | markdownify }}{{ end }}"
+	shortcode := "{{ with $.Page.Params.external }}{{ $file := (printf \"" + filepath.Join(config.PollyDir) + "/external/%s\" (sha1 .)) }}{{ $contents := readFile $file }}{{ replace $contents (print \"# \" $.Page.Params.title) \"\" | markdownify }}{{ end }}"
 	err := ioutil.WriteFile(filepath.Join(shortcodeDir, "external.html"), []byte(shortcode), 0644)
 	if err != nil {
 		log.Errorf(err.Error())
